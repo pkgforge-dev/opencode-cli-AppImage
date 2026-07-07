@@ -12,7 +12,7 @@ export DESKTOP=DUMMY
 export MAIN_BIN=opencode
 
 # Deploy dependencies
-quick-sharun /usr/bin/opencode
+quick-sharun ./AppDir/bin/*
 
 # Additional changes can be done in between here
 
