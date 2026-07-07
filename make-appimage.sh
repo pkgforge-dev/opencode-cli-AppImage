@@ -13,6 +13,7 @@ export MAIN_BIN=opencode
 
 # Deploy dependencies
 quick-sharun ./AppDir/bin/*
+echo 'OPENCODE_DISABLE_AUTOUPDATE=1' >> ./AppDir/.env
 
 # Additional changes can be done in between here
 
