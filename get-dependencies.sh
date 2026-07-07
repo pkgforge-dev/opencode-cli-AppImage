@@ -17,10 +17,22 @@ get-debloated-pkgs --add-common --prefer-nano
 
 # If the application needs to be manually built that has to be done down here
 
-# if you also have to make nightly releases check for DEVEL_RELEASE = 1
-#
-# if [ "${DEVEL_RELEASE-}" = 1 ]; then
-# 	nightly build steps
-# else
-# 	regular build steps
-# fi
+echo "Getting binary..."
+echo "---------------------------------------------------------------"
+case "$ARCH" in
+	x86_64)  farch=x64;;
+	aarch64) farch=arm64;;
+esac
+link=https://github.com/anomalyco/opencode/releases/latest/download/opencode-linux-$farch.tar.gz
+if ! wget --retry-connrefused --tries=30 "$link" -O /tmp/temp.tar.gz 2>/tmp/download.log; then
+	cat /tmp/download.log
+	exit 1
+fi
+tar -xvf /tmp/temp.tar.gz
+rm -f /tmp/temp.tar.gz
+
+chmod +x ./opencode
+mkdir -p ./AppDir/bin
+cp -v ./opencode ./AppDir/bin
+
+awk -F'/' '/Location:/{print $(NF-1); exit}' /tmp/download.log > ~/version
